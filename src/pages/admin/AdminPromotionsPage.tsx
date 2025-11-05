@@ -26,22 +26,34 @@ const AdminPromotionsPage = () => {
 
   // Funções para os botões
   const handleCreatePromotion = () => {
+    console.log('Botão Nova Promoção clicado');
+    alert('Nova promoção será criada!');
     toast.success('Abrindo formulário para nova promoção...');
   };
 
   const handleViewPromotion = (promotionId: string) => {
+    console.log('Visualizar promoção:', promotionId);
+    alert(`Visualizando promoção ${promotionId}`);
     toast.info(`Visualizando promoção ${promotionId}`);
   };
 
   const handleEditPromotion = (promotionId: string) => {
+    console.log('Editar promoção:', promotionId);
+    alert(`Editando promoção ${promotionId}`);
     toast.info(`Editando promoção ${promotionId}`);
   };
 
   const handleDeletePromotion = (promotionId: string) => {
-    toast.error(`Promoção ${promotionId} removida`);
+    console.log('Deletar promoção:', promotionId);
+    if (confirm(`Tem certeza que deseja remover a promoção ${promotionId}?`)) {
+      alert(`Promoção ${promotionId} removida`);
+      toast.error(`Promoção ${promotionId} removida`);
+    }
   };
 
   const handleQuickAction = (type: string) => {
+    console.log('Ação rápida:', type);
+    alert(`Criando promoção do tipo: ${type}`);
     toast.success(`Criando promoção do tipo: ${type}`);
   };
 
@@ -305,15 +317,24 @@ const AdminPromotionsPage = () => {
                   </div>
                   
                   <div className="flex gap-1">
-                    <Button variant="ghost" size="sm" onClick={() => handleViewPromotion(promotion.id)}>
+                    <button 
+                      onClick={() => handleViewPromotion(promotion.id)}
+                      className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+                    >
                       <Eye className="w-4 h-4" />
-                    </Button>
-                    <Button variant="ghost" size="sm" onClick={() => handleEditPromotion(promotion.id)}>
+                    </button>
+                    <button 
+                      onClick={() => handleEditPromotion(promotion.id)}
+                      className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+                    >
                       <Edit className="w-4 h-4" />
-                    </Button>
-                    <Button variant="ghost" size="sm" className="text-red-600" onClick={() => handleDeletePromotion(promotion.id)}>
+                    </button>
+                    <button 
+                      onClick={() => handleDeletePromotion(promotion.id)}
+                      className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3 text-red-600"
+                    >
                       <Trash2 className="w-4 h-4" />
-                    </Button>
+                    </button>
                   </div>
                 </div>
               </div>

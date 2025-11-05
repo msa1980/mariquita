@@ -282,18 +282,34 @@ const AdminProductsPage = () => {
                     </td>
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="sm">
+                        <button 
+                          onClick={() => alert(`Visualizando produto ${product.name}`)}
+                          className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+                        >
                           <Eye className="w-4 h-4" />
-                        </Button>
-                        <Button variant="ghost" size="sm">
+                        </button>
+                        <button 
+                          onClick={() => alert(`Editando produto ${product.name}`)}
+                          className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+                        >
                           <Edit className="w-4 h-4" />
-                        </Button>
-                        <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700">
+                        </button>
+                        <button 
+                          onClick={() => {
+                            if (confirm(`Tem certeza que deseja remover ${product.name}?`)) {
+                              alert(`Produto ${product.name} removido`);
+                            }
+                          }}
+                          className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3 text-red-600 hover:text-red-700"
+                        >
                           <Trash2 className="w-4 h-4" />
-                        </Button>
-                        <Button variant="ghost" size="sm">
+                        </button>
+                        <button 
+                          onClick={() => alert('Menu de opções')}
+                          className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+                        >
                           <MoreHorizontal className="w-4 h-4" />
-                        </Button>
+                        </button>
                       </div>
                     </td>
                   </tr>
