@@ -22,6 +22,7 @@ import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
 import AdminProductsPage from "./pages/admin/AdminProductsPage";
 import AdminOrdersPage from "./pages/admin/AdminOrdersPage";
 import AdminReportsPage from "./pages/admin/AdminReportsPage";
+import AdminPromotionsPage from "./pages/admin/AdminPromotionsPage";
 
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AdminRoute from "./components/auth/AdminRoute";
@@ -54,6 +55,7 @@ function App() {
             <Route path="/admin/produtos" element={<AdminProductsPage />} />
             <Route path="/admin/pedidos" element={<AdminOrdersPage />} />
             <Route path="/admin/vendas" element={<AdminReportsPage />} />
+            <Route path="/admin/promocoes" element={<AdminPromotionsPage />} />
           </Route>
         </Routes>
         <Toaster richColors position="top-right" />
