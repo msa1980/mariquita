@@ -6,6 +6,10 @@ const AdminRoute = ({ children }: { children: ReactNode }) => {
   const { session, isAdmin } = useAuthStore();
   const location = useLocation();
 
+  // TEMPORÁRIO: Permitir acesso direto ao admin para demonstração
+  // Remova esta linha quando o Supabase estiver funcionando
+  return children;
+
   if (!session) {
     return <Navigate to="/admin/login" state={{ from: location }} replace />;
   }
