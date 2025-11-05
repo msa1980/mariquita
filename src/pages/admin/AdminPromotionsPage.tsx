@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { toast } from 'sonner';
 import { 
   Plus, 
   Search, 
@@ -15,7 +16,6 @@ import {
   TrendingUp,
   Users,
   DollarSign,
-  MoreHorizontal,
   Star,
   Gift
 } from 'lucide-react';
@@ -23,6 +23,27 @@ import {
 const AdminPromotionsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('all');
+
+  // Funções para os botões
+  const handleCreatePromotion = () => {
+    toast.success('Abrindo formulário para nova promoção...');
+  };
+
+  const handleViewPromotion = (promotionId: string) => {
+    toast.info(`Visualizando promoção ${promotionId}`);
+  };
+
+  const handleEditPromotion = (promotionId: string) => {
+    toast.info(`Editando promoção ${promotionId}`);
+  };
+
+  const handleDeletePromotion = (promotionId: string) => {
+    toast.error(`Promoção ${promotionId} removida`);
+  };
+
+  const handleQuickAction = (type: string) => {
+    toast.success(`Criando promoção do tipo: ${type}`);
+  };
 
   // Mock data para promoções
   const promotions = [
@@ -135,11 +156,11 @@ const AdminPromotionsPage = () => {
           <p className="text-gray-600 dark:text-gray-400 mt-1">Gerencie campanhas promocionais</p>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={() => toast.info('Visualizando todas as promoções')}>
             <Eye className="w-4 h-4 mr-2" />
             Visualizar
           </Button>
-          <Button size="sm">
+          <Button size="sm" onClick={handleCreatePromotion}>
             <Plus className="w-4 h-4 mr-2" />
             Nova Promoção
           </Button>
@@ -235,7 +256,7 @@ const AdminPromotionsPage = () => {
           <Card key={promotion.id} className="overflow-hidden hover:shadow-lg transition-shadow">
             <div className="relative">
               <img
-                src={promotion.image}
+                src={`https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=300&h=150&fit=crop&q=80`}
                 alt={promotion.name}
                 className="w-full h-32 object-cover"
               />
@@ -284,13 +305,13 @@ const AdminPromotionsPage = () => {
                   </div>
                   
                   <div className="flex gap-1">
-                    <Button variant="ghost" size="sm">
+                    <Button variant="ghost" size="sm" onClick={() => handleViewPromotion(promotion.id)}>
                       <Eye className="w-4 h-4" />
                     </Button>
-                    <Button variant="ghost" size="sm">
+                    <Button variant="ghost" size="sm" onClick={() => handleEditPromotion(promotion.id)}>
                       <Edit className="w-4 h-4" />
                     </Button>
-                    <Button variant="ghost" size="sm" className="text-red-600">
+                    <Button variant="ghost" size="sm" className="text-red-600" onClick={() => handleDeletePromotion(promotion.id)}>
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
@@ -311,19 +332,19 @@ const AdminPromotionsPage = () => {
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <Button className="h-16 flex-col gap-2" variant="outline">
+            <Button className="h-16 flex-col gap-2" variant="outline" onClick={() => handleQuickAction('Desconto Percentual')}>
               <Percent className="w-6 h-6" />
               Desconto Percentual
             </Button>
-            <Button className="h-16 flex-col gap-2" variant="outline">
+            <Button className="h-16 flex-col gap-2" variant="outline" onClick={() => handleQuickAction('Desconto Fixo')}>
               <DollarSign className="w-6 h-6" />
               Desconto Fixo
             </Button>
-            <Button className="h-16 flex-col gap-2" variant="outline">
+            <Button className="h-16 flex-col gap-2" variant="outline" onClick={() => handleQuickAction('Frete Grátis')}>
               <Tag className="w-6 h-6" />
               Frete Grátis
             </Button>
-            <Button className="h-16 flex-col gap-2" variant="outline">
+            <Button className="h-16 flex-col gap-2" variant="outline" onClick={() => handleQuickAction('Combo Especial')}>
               <Star className="w-6 h-6" />
               Combo Especial
             </Button>

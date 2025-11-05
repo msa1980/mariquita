@@ -3,6 +3,9 @@ import { MOCK_PRODUCTS } from "@/lib/mockData";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { 
   Tag, 
   Clock, 
@@ -16,6 +19,9 @@ import {
 } from "lucide-react";
 
 const HomePage = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+
   // Promoções em destaque
   const featuredPromotions = [
     {
@@ -24,7 +30,7 @@ const HomePage = () => {
       description: 'Até 70% OFF em eletrônicos',
       discount: '70% OFF',
       endDate: '2024-11-30',
-      image: 'https://via.placeholder.com/600x300',
+      image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&h=300&fit=crop',
       bgGradient: 'from-red-500 to-pink-600',
       textColor: 'text-white'
     },
@@ -34,7 +40,7 @@ const HomePage = () => {
       description: 'Em compras acima de R$ 100',
       discount: 'GRÁTIS',
       endDate: '2024-12-31',
-      image: 'https://via.placeholder.com/300x200',
+      image: 'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=300&h=200&fit=crop',
       bgGradient: 'from-blue-500 to-cyan-600',
       textColor: 'text-white'
     },
@@ -44,11 +50,38 @@ const HomePage = () => {
       description: 'R$ 50 OFF em compras acima de R$ 300',
       discount: 'R$ 50 OFF',
       endDate: '2024-12-02',
-      image: 'https://via.placeholder.com/300x200',
+      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&h=200&fit=crop',
       bgGradient: 'from-purple-500 to-indigo-600',
       textColor: 'text-white'
     }
   ];
+
+  const handlePromotionClick = (promotionId: string) => {
+    toast.success(`Redirecionando para a promoção ${promotionId}!`);
+    // Aqui você pode navegar para uma página específica da promoção
+    navigate(`/promocao/${promotionId}`);
+  };
+
+  const handleNewsletterSignup = () => {
+    if (!email) {
+      toast.error('Por favor, digite seu email');
+      return;
+    }
+    if (!email.includes('@')) {
+      toast.error('Por favor, digite um email válido');
+      return;
+    }
+    toast.success('Email cadastrado com sucesso! Você receberá nossas ofertas.');
+    setEmail('');
+  };
+
+  const handleViewAllProducts = () => {
+    navigate('/produtos');
+  };
+
+  const handleViewAllPromotions = () => {
+    navigate('/promocoes');
+  };
 
   const quickOffers = [
     { icon: Percent, title: 'Até 50% OFF', subtitle: 'Em produtos selecionados' },
@@ -91,7 +124,11 @@ const HomePage = () => {
                 </div>
               </div>
 
-              <Button size="lg" className="bg-white text-gray-900 hover:bg-gray-100">
+              <Button 
+                size="lg" 
+                className="bg-white text-gray-900 hover:bg-gray-100"
+                onClick={() => handlePromotionClick(featuredPromotions[0].id)}
+              >
                 <ShoppingBag className="w-5 h-5 mr-2" />
                 Aproveitar Oferta
                 <ArrowRight className="w-5 h-5 ml-2" />
@@ -113,7 +150,14 @@ const HomePage = () => {
       <section>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {quickOffers.map((offer, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow cursor-pointer">
+            <Card 
+              key={index} 
+              className="hover:shadow-lg transition-shadow cursor-pointer"
+              onClick={() => {
+                toast.info(`Explorando: ${offer.title}`);
+                navigate('/produtos');
+              }}
+            >
               <CardContent className="p-6 text-center">
                 <offer.icon className="w-8 h-8 mx-auto mb-3 text-blue-600" />
                 <h3 className="font-semibold text-gray-900">{offer.title}</h3>
@@ -128,7 +172,7 @@ const HomePage = () => {
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900">Promoções Especiais</h2>
-          <Button variant="outline">
+          <Button variant="outline" onClick={handleViewAllPromotions}>
             Ver Todas
             <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
@@ -136,7 +180,11 @@ const HomePage = () => {
         
         <div className="grid md:grid-cols-2 gap-6">
           {featuredPromotions.slice(1).map((promotion) => (
-            <Card key={promotion.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+            <Card 
+              key={promotion.id} 
+              className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+              onClick={() => handlePromotionClick(promotion.id)}
+            >
               <div className={`bg-gradient-to-r ${promotion.bgGradient} p-6`}>
                 <div className="flex items-center justify-between">
                   <div className="space-y-2">
@@ -169,7 +217,7 @@ const HomePage = () => {
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900">Produtos em Destaque</h2>
-          <Button variant="outline">
+          <Button variant="outline" onClick={handleViewAllProducts}>
             Ver Catálogo Completo
             <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
@@ -195,9 +243,16 @@ const HomePage = () => {
             <input
               type="email"
               placeholder="Seu melhor email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onKeyPress={(e) => e.key === 'Enter' && handleNewsletterSignup()}
             />
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
+            <Button 
+              size="lg" 
+              className="bg-blue-600 hover:bg-blue-700"
+              onClick={handleNewsletterSignup}
+            >
               <Gift className="w-5 h-5 mr-2" />
               Cadastrar
             </Button>
